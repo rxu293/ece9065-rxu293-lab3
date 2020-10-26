@@ -1,0 +1,22 @@
+{
+  "name": "ece9065-rxu293-lab3",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rxu293/ece9065-rxu293-lab3.git"
+  },
+  "author": "Ruize Xu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rxu293/ece9065-rxu293-lab3/issues"
+  },
+  "homepage": "https://github.com/rxu293/ece9065-rxu293-lab3#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
