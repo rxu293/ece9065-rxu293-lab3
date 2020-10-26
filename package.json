@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/rxu293/ece9065-rxu293-lab3#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "simple-json-db": "^1.2.2"
   }
 }
