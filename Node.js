@@ -8,7 +8,9 @@ const low = require('lowdb');
 const FileSync = require('lowdb/adapters/FileSync');
 
 const adapter = new FileSync('data/lab3-timetable-data.json');
-const db = low(adapter);
+const adapter2 = new FileSync('data/lab3-timetable-data2.json');
+const db = low(adapter2);
+
 
 //server files in static folder at root URL '/'
 app.use('/', express.static('static'));
@@ -36,7 +38,7 @@ router.get('/courses', (req,res) =>{
     courses = JSON.stringify(courses);
     res.send(courses);
 });
-
+/*
 router.get('/courses/:subject', (req, res) =>{
     let subjectcode = req.params.subject;
     let courses = [];
@@ -57,6 +59,74 @@ router.get('/courses/:subject', (req, res) =>{
         res.status(404).send('the given subject code was not found');
     }
 });
+*/
+
+router.get('/courses/:subject', (req, res) =>{
+    let subjectcode = req.params.subject;
+    let courses = [];
+    courses = db.get("courses").filter({subject : subjectcode}).map("catalog_nbr").value();
+    if (courses.length > 0)
+        res.send(courses);
+    else{
+        res.status(404).send('the given subject code was not found');
+    }
+});
+
+//witchout component code
+router.get('/courses/:subject/:catalog_nbr', (req, res) =>{
+	let subjectcode = req.params.subject;
+	let catacode = req.params.catalog_nbr;
+	if (Number(catacode)) catacode = Number(catacode);
+	let course = [];
+	let time = [];
+	courses = db.get("courses").filter({subject : subjectcode}).
+	filter({catalog_nbr : catacode}).map("course_info").first().value();
+	if (courses.length > 0)
+        res.send(getTimes(courses));
+    else{
+        res.status(404).send('based on the given infomation, the course was not found');
+    }
+});
+
+//with component code
+router.get('/courses/:subject/:catalog_nbr/:ssr_component', (req, res) =>{
+	let subjectcode = req.params.subject;
+	let catacode = req.params.catalog_nbr;
+	if (Number(catacode)) catacode = Number(catacode);
+	let componentcode = req.params.ssr_component;
+	let course = [];
+	let time = [];
+	console.log(subjectcode,catacode,componentcode);
+	courses = db.get("courses").filter({subject : subjectcode}).
+	filter({catalog_nbr : catacode}).map("course_info").first().filter({ssr_component : componentcode}).value();
+	if (courses.length > 0)
+        res.send(getTimes(courses));
+    else{
+        res.status(404).send('based on the given infomation, the course was not found');
+    }
+});
+
+function getTimes(course_info)
+{
+	let ret = [];
+	for (i = 0; i < course_info.length; i++)
+	{
+		let times = {
+			start_time: course_info[i].start_time, 
+			end_time: course_info[i].end_time
+		};
+		ret.push(times);
+	}
+	return ret;
+}
+
+function checkcomponent(course_info)
+{
+	let ret = [];
+	for (i = 0; i < course_info.length; i++)
+	{
+	}
+}
 
 app.use('/api',router);
 
