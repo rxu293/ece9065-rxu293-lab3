@@ -4,13 +4,11 @@ const router = express.Router();
 const port = 3000;
 
 //setup the database
-const JSONdb = require('simple-json-db');
-const db = new JSONdb('data/lab3-timetable-data.json');
-var course = [
-              {
-    "id" : 1
-}]
+const low = require('lowdb');
+const FileSync = require('lowdb/adapters/FileSync');
 
+const adapter = new FileSync('data/lab3-timetable-data.json');
+const db = low(adapter);
 //server files in static folder at root URL '/'
 app.use('/', express.static('static'));
 
@@ -23,7 +21,7 @@ router.use((req, res, next) =>{
 router.use(express.json());
 
 router.get('/courses', (req,res) =>{
-    let data = db.JSON();
+    let data = db.value();
     let courses = [];
     for (i = 0; i < data.length; i++)
     {
@@ -33,12 +31,14 @@ router.get('/courses', (req,res) =>{
         };
         courses.push(course);
     }
+    courses = JSON.stringify(courses);
     res.send(courses);
 });
 
-router.get('/courses/:id', (req, res) =>{
-    res.send(course);
-    console.log('ID:' + req.params.id);
+router.get('/courses/:subject', (req, res) =>{
+    let data = JSON.stringify(db.get('courses'));
+    console.log(data);
+    res.send(data);
 });
 
 app.use('/api',router);
