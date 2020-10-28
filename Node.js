@@ -9,13 +9,12 @@ const FileSync = require('lowdb/adapters/FileSync');
 
 const adapter = new FileSync('data/lab3-timetable-data.json');
 const adapter2 = new FileSync('data/lab3-timetable-data2.json');
+const scheduleadapter = new FileSync('data/schedule');
 const db = low(adapter2);
 
 
 //server files in static folder at root URL '/'
 app.use('/', express.static('static'));
-
-const data = db.value();
 
 
 router.use((req, res, next) =>{
@@ -26,40 +25,13 @@ router.use(express.json());
 
 
 router.get('/courses', (req,res) =>{
-    let courses = [];
-    for (i = 0; i < data.length; i++)
-    {
-        let course = {
-            subject: data[i].subject,
-            description: data[i].className
-        };
-        courses.push(course);
-    }
-    courses = JSON.stringify(courses);
-    res.send(courses);
+	let subjects = db.get("courses").map("subject").value();
+	let classNames = db.get("courses").map("className").value();
+	let data = subjects.map(function(e, i){
+		return [e, classNames[i]];
+	});
+    res.send(data);
 });
-/*
-router.get('/courses/:subject', (req, res) =>{
-    let subjectcode = req.params.subject;
-    let courses = [];
-    for (i = 0; i < data.length; i++)
-    {
-        console.log(data[i].subject, subjectcode);
-        if (data[i].subject == subjectcode)
-        {
-            let course = {
-                coursescode: data[i].catalog_nbr
-            }
-            courses.push(course);
-        }
-    }
-    if (courses.length > 0)
-        res.send(courses);
-    else{
-        res.status(404).send('the given subject code was not found');
-    }
-});
-*/
 
 router.get('/courses/:subject', (req, res) =>{
     let subjectcode = req.params.subject;
@@ -104,6 +76,12 @@ router.get('/courses/:subject/:catalog_nbr/:ssr_component', (req, res) =>{
     else{
         res.status(404).send('based on the given infomation, the course was not found');
     }
+});
+
+router.post('schedule', (req, res) =>{
+
+
+
 });
 
 function getTimes(course_info)
