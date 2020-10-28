@@ -64,7 +64,7 @@ router.get('/courses/:subject', (req, res) =>{
 router.get('/courses/:subject', (req, res) =>{
     let subjectcode = req.params.subject;
     let courses = [];
-    courses = db.get("courses").filter({subject : subjectcode}).map("catalog_nbr").value();
+    courses = db.get("courses").filter({subject : subjectcode}).map("course_info").value();
     if (courses.length > 0)
         res.send(courses);
     else{
@@ -80,7 +80,7 @@ router.get('/courses/:subject/:catalog_nbr', (req, res) =>{
 	let course = [];
 	let time = [];
 	courses = db.get("courses").filter({subject : subjectcode}).
-	filter({catalog_nbr : catacode}).map("course_info").first().value();
+	filter({catalog_nbr : catacode}).map("course_info").value();
 	if (courses.length > 0)
         res.send(getTimes(courses));
     else{
@@ -100,7 +100,7 @@ router.get('/courses/:subject/:catalog_nbr/:ssr_component', (req, res) =>{
 	courses = db.get("courses").filter({subject : subjectcode}).
 	filter({catalog_nbr : catacode}).map("course_info").first().filter({ssr_component : componentcode}).value();
 	if (courses.length > 0)
-        res.send(getTimes(courses));
+        res.send(getTimesForComponent(courses));
     else{
         res.status(404).send('based on the given infomation, the course was not found');
     }
@@ -112,20 +112,26 @@ function getTimes(course_info)
 	for (i = 0; i < course_info.length; i++)
 	{
 		let times = {
-			start_time: course_info[i].start_time, 
-			end_time: course_info[i].end_time
+			start_time: course_info[i][0].start_time, 
+			end_time: course_info[i][0].end_time
 		};
 		ret.push(times);
 	}
 	return ret;
 }
 
-function checkcomponent(course_info)
+function getTimesForComponent(course_info)
 {
 	let ret = [];
 	for (i = 0; i < course_info.length; i++)
 	{
+		let times = {
+			start_time: course_info[0].start_time, 
+			end_time: course_info[0].end_time
+		};
+		ret.push(times);
 	}
+	return ret;
 }
 
 app.use('/api',router);
