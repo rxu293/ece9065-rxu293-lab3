@@ -1,5 +1,6 @@
 document.getElementById("get_all_courses_btn").onclick = function() {getAllCourses()}
 document.getElementById("get_codes_by_subject_btn").onclick = function() {getCodesByGivenSubject()}
+document.getElementById("get_times_by_given_info_btn").onclick = function() {getTimeEntry()}
 
 //fetch function 1
 function getAllCourses()
@@ -83,4 +84,26 @@ function showCodesByGivenSubject(data)
 		tr.appendChild(th1);
 		table.appendChild(tr);
 	}
+}
+
+//fetch function 3
+function getTimeEntry()
+{
+	let subject = document.getElementById('div_subjectInputText').value;
+	let course = document.getElementById('div_courseInputText').value;
+	let component = document.getElementById('div_componentInputText').value;
+	let req = 'http://localhost:3000/api/courses/' + subject + "/" + course;
+	if (component) req += "/" + component;
+	fetch(req)
+	.then((res) => res.json())
+	.then(function(data){
+		showTimeEntry(data);
+	})
+	.catch(error => console.log(error));
+}
+
+//function 3
+function showTimeEntry(data)
+{
+
 }
