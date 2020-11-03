@@ -10,9 +10,13 @@
 <body>
 
 <!-- Place your content here -->
-<form method = "get" action = "http://localhost:3000/api/courses">
-    <input type = "submit" value = "Get all courses">
-</form>
+<button id = "get_all_courses_btn">Get all available courses</button>
+<input type = "text" id = "subjectInputText" placeholder="please input the subject code">
+<button id = "get_codes_by_subject_btn">Get all codes under this subject</button>
+
+<table id = "course_table">
+
+</table>
 
 <!-- Embedded JavaScript go here -->
 <script src = "course.js"></script>
