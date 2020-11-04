@@ -1,6 +1,7 @@
 document.getElementById("get_all_courses_btn").onclick = function() {getAllCourses()}
 document.getElementById("get_codes_by_subject_btn").onclick = function() {getCodesByGivenSubject()}
 document.getElementById("get_times_by_given_info_btn").onclick = function() {getTimeEntry()}
+document.getElementById("add_schedule_btn").onclick = function() {addSchedule()}
 
 //fetch function 1
 function getAllCourses()
@@ -56,7 +57,14 @@ function getCodesByGivenSubject()
 	fetch('http://localhost:3000/api/courses/' + subject)
 	.then((res) => res.json())
 	.then(function(data){
-		showCodesByGivenSubject(data);
+		if (!data.msg)
+		{
+			showCodesByGivenSubject(data);
+		}
+		else
+		{
+			alert(data.msg);
+		}
 	})
 	.catch(error => alert('no code found for this subject'));
 }
@@ -97,9 +105,16 @@ function getTimeEntry()
 	fetch(req)
 	.then((res) => res.json())
 	.then(function(data){
-		showTimeEntry(data);
+		if (!data.msg)
+		{
+			showTimeEntry(data);
+		}
+		else
+		{
+			alert(data.msg);
+		}
 	})
-	.catch(error => console.log(error));
+	.catch(error => alert('no course found for given subject code or course code'));
 }
 
 //function 3
@@ -150,4 +165,22 @@ function showTimeEntry(data)
 		tr.appendChild(th4);
 		table.appendChild(tr);
 	}
+}
+
+//fetch function 4
+function addSchedule()
+{
+	let schedule = document.getElementById('addScheduleInputText').value;
+	let sendData = {schedule_name: schedule};
+	fetch('http://localhost:3000/api/schedule/', {
+		method: 'POST',
+		body: JSON.stringify(sendData),
+		headers: new Headers({
+    	'Content-Type': 'application/json'
+  		})
+	}).then((res) => res.json())
+	.then(function(data){
+		alert(data.msg);
+	})
+	.catch(error => console.log('error'));
 }

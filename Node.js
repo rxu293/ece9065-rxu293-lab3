@@ -48,7 +48,8 @@ router.get('/courses/:subject', (req, res) =>{
     if (courses.length > 0)
         res.send(courses);
     else{
-        res.status(404).send('the given subject code was not found');
+    	let msg = {msg: 'the given subject code was not found'}
+        res.status(404).send(msg);
     }
 });
 
@@ -64,7 +65,8 @@ router.get('/courses/:subject/:catalog_nbr', (req, res) =>{
 	if (courses.length > 0)
         res.send(getTimes(courses));
     else{
-        res.status(404).send('based on the given infomation, the course was not found');
+    	let msg = {msg: 'the given subject code was not found'}
+        res.status(404).send(msg);
     }
 });
 
@@ -82,7 +84,8 @@ router.get('/courses/:subject/:catalog_nbr/:ssr_component', (req, res) =>{
 	if (courses.length > 0)
         res.send(getTimesForComponent(courses));
     else{
-        res.status(404).send('based on the given infomation, the course was not found');
+    	let msg = {msg: 'based on the given infomation, the course was not found'}
+        res.status(404).send(msg);
     }
 });
 
@@ -92,13 +95,15 @@ router.post('/schedule', (req, res) =>{
 	let existFlag = sche_db.get(schedulename).value();
 	if (existFlag)
 	{
+		let msg = {msg : 'the given schedule name can not be created, because there is already a same schedule name existing' }
 		res.status(400)
-		.send('the given schedule name can not be created, because there is already a same schedule name existing');
+		.send(msg);
 	} 
 	else
 	{
 		sche_db.set(schedulename, {}).write();
-		res.send(schedulename + ": {}");
+		let msg = {msg: 'added successfully'}
+		res.send(msg);
 	}
 });
 
