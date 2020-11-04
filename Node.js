@@ -183,7 +183,8 @@ function getTimes(course_info)
 		let times = {
 			start_time: course_info[i][0].start_time, 
 			end_time: course_info[i][0].end_time,
-			days: course_info[i][0].days
+			days: course_info[i][0].days,
+			component: course_info[i][0].ssr_component
 		};
 		ret.push(times);
 	}
@@ -199,7 +200,8 @@ function getTimesForComponent(course_info)
 		let times = {
 			start_time: course_info[0].start_time, 
 			end_time: course_info[0].end_time,
-			days: course_info[i][0].days
+			days: course_info[0].days,
+			component: course_info[0].ssr_component
 		};
 		ret.push(times);
 	}

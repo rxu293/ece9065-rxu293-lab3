@@ -105,5 +105,49 @@ function getTimeEntry()
 //function 3
 function showTimeEntry(data)
 {
+	let table = document.getElementById('course_table');
+	table.innerHTML = '';
 
+	//for creating header of the table
+	let tr = document.createElement('tr'),
+		th1 = document.createElement('th'),
+		th2 = document.createElement('th'),
+		th3 = document.createElement('th'),
+		th4 = document.createElement('th'),
+		th1text = document.createTextNode("Start_time"),
+		th2text = document.createTextNode("End_time"),
+		th3text = document.createTextNode("Days"),
+		th4text = document.createTextNode("Component");
+	th1.appendChild(th1text);
+	th2.appendChild(th2text);
+	th3.appendChild(th3text);
+	th4.appendChild(th4text);
+	tr.appendChild(th1);
+	tr.appendChild(th2);
+	tr.appendChild(th3);
+	tr.appendChild(th4);
+	table.appendChild(tr);
+
+	//for generating data
+	for (i = 0; i < data.length; i ++)
+	{
+		tr = document.createElement('tr');
+		th1 = document.createElement('th');
+		th2 = document.createElement('th');
+		th3 = document.createElement('th');
+		th4 = document.createElement('th');
+		th1text = document.createTextNode(data[i].start_time);
+		th2text = document.createTextNode(data[i].end_time);
+		th3text = document.createTextNode(data[i].days);
+		th4text = document.createTextNode(data[i].component);
+		th1.appendChild(th1text);
+		th2.appendChild(th2text);
+		th3.appendChild(th3text);
+		th4.appendChild(th4text);
+		tr.appendChild(th1);
+		tr.appendChild(th2);
+		tr.appendChild(th3);
+		tr.appendChild(th4);
+		table.appendChild(tr);
+	}
 }
