@@ -5,6 +5,7 @@ const port = 3000;
 let allowCrossDomain = function(req, res, next) {
   res.header('Access-Control-Allow-Origin', "*");
   res.header('Access-Control-Allow-Headers', "*");
+  res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
   next();
 }
 app.use(allowCrossDomain);
@@ -101,7 +102,7 @@ router.post('/schedule', (req, res) =>{
 	} 
 	else
 	{
-		sche_db.set(schedulename, {}).write();
+		sche_db.set(schedulename, []).write();
 		let msg = {msg: 'added successfully'}
 		res.send(msg);
 	}
@@ -129,7 +130,8 @@ router.post('/schedule/:schedule_name', (req, res) =>{
 			}
 			else
 			{
-				sche_db.get(schedulename).push({subject:pairs[i].subject,catalog_nbr:pairs[i].catalog_nbr}).write();
+				sche_db.get(schedulename).
+				push({subject:pairs[i].subject,catalog_nbr:pairs[i].catalog_nbr}).write();
 			}
 		}
 		let data = sche_db.get(schedulename).value();
@@ -143,8 +145,9 @@ router.get('/schedule/:schedule_name', (req, res) =>{
 	let existFlag = sche_db.get(schedulename).value();
 	if (!existFlag)
 	{
+		let msg = {msg: 'the given schedule name was not found'}
 		res.status(404)
-		.send('the given schedule name was not found');
+		.send(msg);
 	} 
 	else
 	{
@@ -159,13 +162,15 @@ router.delete('/schedule/:schedule_name', (req, res) => {
 	let existFlag = sche_db.get(schedulename).value();
 	if (!existFlag)
 	{
+		let msg = {msg: 'the given schedule name was not found'}
 		res.status(404)
-		.send('the given schedule name was not found');
+		.send(msg);
 	} 
 	else
 	{
 		sche_db.unset(schedulename).write();
-		res.send("successfully delete schedule '" + schedulename + "'");
+		let msg = {msg: "successfully delete schedule '" + schedulename + "'"}
+		res.send(msg);
 	}
 });
 
@@ -189,7 +194,8 @@ router.delete('/schedule', (req, res) => {
 	{
 		sche_db.unset(keys[i]).write();
 	}
-	res.send("deleted all schedules successfully");
+	let msg = {msg: "deleted all schedules successfully"};
+	res.send(msg);
 });
 
 //for getting the start_time and end_time for a given course

@@ -22,13 +22,29 @@
 	<button id = "get_times_by_given_info_btn">Get time entry by given info</button>
 </div>
 <div>
-	<input type = "text" id = "addScheduleInputText" placeholder="input the subject code">
+	<input type = "text" id = "addScheduleInputText" placeholder="input the schedule name">
 	<button id = "add_schedule_btn">Add this schedule</button>
+	<button id = "get_schedule_btn">Get all pairs in this schedule</button>
+	<button id = "delete_schedule_btn">Delete this schedule</button>
+	<button id = "delete_all_schedule_btn">Delete all schedules</button>
 </div>
 
-<table id = "course_table">
+<div>
 
+</div>
+<div>
+	<input type = "text" id = "pairScheduleInputText" placeholder="input the schedule name">
+	<input type = "text" id = "pairSubjectInputText" placeholder="input the subject code">
+	<input type = "text" id = "pairCatalogInputText" placeholder="input the course code">
+	<button id = "add_to_list_btn">Add this pairs to list</button>
+	<button id = "add_list_to_schedule_btn">Add this list to schedule</button>
+</div>
+	<button id = "get_all_schedules_btn">Get all schedules name and the number of courses in them</button>
+<div>
+</div>
+<table id = "course_table">
 </table>
+
 
 <!-- Embedded JavaScript go here -->
 <script src = "course.js"></script>
