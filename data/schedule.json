@@ -2,22 +2,12 @@
   "sche3": [
     {
       "subject": "ACTURSCI",
-      "catalog_nbr": "1021B"
+      "catalog_nbr": "1032B"
     },
     {
-      "subject": "AMERICAN",
-      "catalog_nbr": "2310F"
+      "subject": "CHINESE",
+      "catalog_nbr": "4539E"
     }
   ],
-  "sche1": {},
-  "sche2": {},
-  "sche4": {},
-  "sche6": {},
-  "sche5": {},
-  "sche11": {},
-  "sche12": {},
-  "sche15": {},
-  "sche16": {},
-  "sche13": {},
-  "sche14": {}
+  "sche1": {}
 }

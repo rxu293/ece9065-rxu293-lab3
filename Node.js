@@ -108,19 +108,32 @@ router.post('/schedule', (req, res) =>{
 });
 
 //5. Save a list of subject code, course code pairs under a given schedule name
-router.put('/schedule/:schedule_name', (req, res) =>{
+router.post('/schedule/:schedule_name', (req, res) =>{
 	let schedulename = req.params.schedule_name;
 	let pairs = req.body.pairs;
 	let existFlag = sche_db.get(schedulename).value();
 	if (!existFlag)
 	{
+		let msg = {msg: 'the given schedule name was not found'}
 		res.status(404)
-		.send('the given schedule name was not found');
+		.send(msg);
 	} 
 	else
 	{
-		sche_db.set(schedulename, pairs).write();
-		res.send(schedulename + ": " + JSON.stringify(pairs));
+		for (i = 0; i < pairs.length; i ++)
+		{
+			if (sche_db.get(schedulename).find({subject:pairs[i].subject}).value())
+			{
+				sche_db.get(schedulename).find({subject:pairs[i].subject})
+				.assign({catalog_nbr:pairs[i].catalog_nbr}).write();
+			}
+			else
+			{
+				sche_db.get(schedulename).push({subject:pairs[i].subject,catalog_nbr:pairs[i].catalog_nbr}).write();
+			}
+		}
+		let data = sche_db.get(schedulename).value();
+		res.send(data);
 	}
 });
 
