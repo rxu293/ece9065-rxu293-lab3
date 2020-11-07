@@ -33,6 +33,14 @@
     {
       "subject": "COMPUTER",
       "catalog_nbr": "2341"
+    },
+    {
+      "subject": "ads",
+      "catalog_nbr": "sda"
+    },
+    {
+      "subject": "ads1",
+      "catalog_nbr": "sda2"
     }
   ],
   "课表": [

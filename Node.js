@@ -9,7 +9,7 @@ let allowCrossDomain = function(req, res, next) {
   next();
 }
 app.use(allowCrossDomain);
-app.use(express.json());
+app.use(express.json({ limit: 200 }));
 //setup the database
 const low = require('lowdb');
 const FileSync = require('lowdb/adapters/FileSync');
@@ -231,6 +231,7 @@ function getTimesForComponent(course_info)
 	}
 	return ret;
 }
+
 
 app.use('/api',router);
 
