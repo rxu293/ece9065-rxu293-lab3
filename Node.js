@@ -9,7 +9,7 @@ let allowCrossDomain = function(req, res, next) {
   next();
 }
 app.use(allowCrossDomain);
-app.use(express.json({ limit: 200 }));
+app.use(express.json({ limit: 20000 }));
 //setup the database
 const low = require('lowdb');
 const FileSync = require('lowdb/adapters/FileSync');
