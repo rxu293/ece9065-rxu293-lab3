@@ -25,7 +25,6 @@ function getAllCourses()
 //function 1
 function showAllCourses(data)
 {
-	console.log(data.length)
 	let table = document.getElementById('course_table');
 	table.innerHTML = '';
 
