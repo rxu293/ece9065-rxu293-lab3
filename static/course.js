@@ -11,9 +11,6 @@ document.getElementById("get_all_schedules_btn").onclick = function(){getSchedul
 var pairs = {pairs:[]};
 var publicURL = "http://localhost" + ":3000/api/";
 
-$.getJSON('https://ipapi.co/json/', function(data) {
-  console.log(JSON.stringify(data, null, 2));
-});
 //fetch function 1
 function getAllCourses()
 {
