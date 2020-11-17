@@ -180,7 +180,7 @@ function addSchedule()
 {
 	let schedule = document.getElementById('addScheduleInputText').value;
 	let sendData = {schedule_name: schedule};
-	fetch('http://localhost:3000/api/schedule/', {
+	fetch(publicURL + 'schedule/', {
 		method: 'POST',
 		body: JSON.stringify(sendData),
 		headers: new Headers({

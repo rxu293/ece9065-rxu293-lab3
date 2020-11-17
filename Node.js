@@ -14,7 +14,7 @@ app.use(express.json({ limit: 20000 }));
 const low = require('lowdb');
 const FileSync = require('lowdb/adapters/FileSync');
 
-const adapter = new FileSync('data/lab3-timetable-data2.json');
+const adapter = new FileSync('data/Lab3-timetable-data2.json');
 const schedule_adapter = new FileSync('data/schedule.json');
 const db = low(adapter);
 const sche_db = low(schedule_adapter);
@@ -59,10 +59,11 @@ router.get('/courses/:subject/:catalog_nbr', (req, res) =>{
 	let subjectcode = req.params.subject;
 	let catacode = req.params.catalog_nbr;
 	if (Number(catacode)) catacode = Number(catacode);
-	let course = [];
+	let courses = [];
 	let time = [];
 	courses = db.get("courses").filter({subject : subjectcode}).
 	filter({catalog_nbr : catacode}).map("course_info").value();
+	console.log(courses);
 	if (courses.length > 0)
         res.send(getTimes(courses));
     else{
@@ -77,11 +78,20 @@ router.get('/courses/:subject/:catalog_nbr/:ssr_component', (req, res) =>{
 	let catacode = req.params.catalog_nbr;
 	if (Number(catacode)) catacode = Number(catacode);
 	let componentcode = req.params.ssr_component;
-	let course = [];
+	let data = [];
 	let time = [];
+	let courses = [];
 	console.log(subjectcode,catacode,componentcode);
-	courses = db.get("courses").filter({subject : subjectcode}).
-	filter({catalog_nbr : catacode}).map("course_info").first().filter({ssr_component : componentcode}).value();
+	data = db.get("courses").filter({subject : subjectcode}).
+	filter({catalog_nbr : catacode}).map("course_info").value();
+	for (i = 0; i < data.length; i++)
+	{
+		let course = data[i][0];
+		console.log(course);
+		if (course.ssr_component == componentcode)
+			courses.push(course);
+	}
+	console.log(courses);
 	if (courses.length > 0)
         res.send(getTimesForComponent(courses));
     else{
